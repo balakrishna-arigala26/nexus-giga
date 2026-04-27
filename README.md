@@ -15,7 +15,7 @@ By leveraging Agentic RAG and the Model Context Protocol (MCP), Nexus-Giga ensur
 
 ### 📊 Project Roadmap & Status
 
-* [✅] **Phase 1: The Secure Data Bridge** (Complete)
+* [x] **Phase 1: The Secure Data Bridge** (Complete)
 
 * [ ] **Phase 2: Enterprise Knowledge & Memory** (Up Next)
 
