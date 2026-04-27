@@ -15,7 +15,7 @@ By leveraging Agentic RAG and the Model Context Protocol (MCP), Nexus-Giga ensur
 
 ### 📊 Project Roadmap & Status
 
-* [x] **Phase 1: The Secure Data Bridge** (Complete)
+* [✅] **Phase 1: The Secure Data Bridge** (Complete)
 
 * [ ] **Phase 2: Enterprise Knowledge & Memory** (Up Next)
 
@@ -99,7 +99,7 @@ Launch the local MCP Inspector to simulate an LLM querying the data bridge.
 npx @modelcontextprotocol/inspector python backend/mcp/mcp_server.py
 ```
 
-![MCP Inspector Success](/nexus-giga/assets/images/mcp-success.png)
+![MCP Inspector Success](assets/images/mcp-success.png)
 
 ### 🛡️ Security & Privacy
 
