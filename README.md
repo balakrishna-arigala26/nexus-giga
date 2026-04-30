@@ -8,6 +8,8 @@
 [![OpenAI](https://img.shields.io/badge/AI-OpenAI-412991.svg)](https://openai.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+![System Architecture](assets/Nexus-Giga-architecture.png)
+
 ### 📖 Overview
 
 Nexus-Giga is an autonomous, multi-agent ecosystem designed for industrial giga-factories. It bridges the critical gap between unstructured technical knowledge (PDF equipment manuals) and structured enterprise data (telemetry, SQL databases) to fully automate the equipment maintenance and procurement lifecycle.
@@ -28,7 +30,7 @@ By leveraging Agentic RAG, Enterprise Long-Term Memory (Mem0), and the Model Con
 
 ### 🏗️ Architecture & Tech Stack
 
-`**Phase 1: The Secure Data Bridge**`
+* **Phase 1: The Secure Data Bridge**
 
 * **Database:** SQLite
 
@@ -36,7 +38,7 @@ By leveraging Agentic RAG, Enterprise Long-Term Memory (Mem0), and the Model Con
 
 * **Security:** Strict read-only (`mode=ro`) SQLite connections to prevent LLM hallucinations from corrupting localized databases.
 
-`**Phase 2: Enterprise Knowledge & Memory**`
+* **Phase 2: Enterprise Knowledge & Memory**
   
 * **Vector Database:** Pinecone (Configured for Hybrid Search: Dense + Sparse vectors)
 
@@ -112,7 +114,7 @@ ANTHROPIC_API_KEY="your-anthropic-key"
 
 ### ⚙️ Execution
 
-`### Phase 1: Local Data Bridge`
+* **Phase 1: Local Data Bridge**
 
 1. Initialize the Mock Enterprise Database:
 
@@ -132,7 +134,7 @@ npx @modelcontextprotocol/inspector python backend/mcp/mcp_server.py
 
 ![MCP Inspector Success](assets/images/mcp-success.png)
 
-`### Phase 2: RAG & Memory Pipeline`
+* **Phase 2: RAG & Memory Pipeline**
 
 1. Generate the synthetic technical manual:
 
@@ -151,6 +153,8 @@ python backend/rag/ingest.py
 ```bash
 python backend/memory/memory_manager.py
 ```
+
+![Mem0 Execution Success](assets/memory-success.png)
 
 ### 🛡️ Security & Privacy
 
