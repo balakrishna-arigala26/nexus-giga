@@ -1,4 +1,15 @@
-venv/
-__pycache__/
-*.db
+# Environments
 .env
+venv/
+env/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database
+data/*.db
+
+# OS generated files
+.DS_Store
