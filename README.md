@@ -8,7 +8,7 @@
 [![OpenAI](https://img.shields.io/badge/AI-OpenAI-412991.svg)](https://openai.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-![System Architecture](assets/Nexus-Giga-architecture.png)
+![System Architecture](assets/iamges/Nexus-Giga-architecture.png)
 
 ### 📖 Overview
 
@@ -154,7 +154,7 @@ python backend/rag/ingest.py
 python backend/memory/memory_manager.py
 ```
 
-![Mem0 Execution Success](assets/memory-success.png)
+![Mem0 Execution Success](assets/images/memory-success.png)
 
 ### 🛡️ Security & Privacy
 
