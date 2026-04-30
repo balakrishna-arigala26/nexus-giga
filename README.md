@@ -8,7 +8,7 @@
 [![OpenAI](https://img.shields.io/badge/AI-OpenAI-412991.svg)](https://openai.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-![System Architecture](assets/iamges/Nexus-Giga-architecture.png)
+![System Architecture](assets/images/Nexus-Giga-architecture.png)
 
 ### 📖 Overview
 
@@ -67,6 +67,7 @@ nexus-giga/
 ├── requirements.txt           # Version-locked dependencies
 ├── .env                       # API Keys (Git-ignored)
 ├── .gitignore
+├── LICENSE                    # MIT License
 └── README.md
 ```
 
