@@ -22,15 +22,15 @@ By leveraging Agentic RAG, Enterprise Long-Term Memory (Mem0), and the Model Con
 
 * [x] **Phase 2: Enterprise Knowledge & Memory** (Complete)
 
-* [ ] **Phase 3: The Multi-Agent Brain** (Up Next)
+* [x] **Phase 3: The Multi-Agent Brain** (Complete)
 
-* [ ] **Phase 4: Streaming & UX**
+* [ ] **Phase 4: Streaming & UX** (Upnext)
 
 * [ ] **Phase 5: Evaluation & Production**
 
 ### 🏗️ Architecture & Tech Stack
 
-* **Phase 1: The Secure Data Bridge**
+#### Phase 1: The Secure Data Bridge
 
 * **Database:** SQLite
 
@@ -38,7 +38,7 @@ By leveraging Agentic RAG, Enterprise Long-Term Memory (Mem0), and the Model Con
 
 * **Security:** Strict read-only (`mode=ro`) SQLite connections to prevent LLM hallucinations from corrupting localized databases.
 
-* **Phase 2: Enterprise Knowledge & Memory**
+#### Phase 2: Enterprise Knowledge & Memory
   
 * **Vector Database:** Pinecone (Configured for Hybrid Search: Dense + Sparse vectors)
 
@@ -48,27 +48,41 @@ By leveraging Agentic RAG, Enterprise Long-Term Memory (Mem0), and the Model Con
 
 * **Long-Term Memory:** Mem0 (Powered by OpenAI `gpt-4o-mini` for historical episodic memory retrieval)
 
+#### Phase 3: The Multi-Agent Brain
+
+* **Triage & Roting:** `Gemini 3 Flash Preview` (High-speed issue classification)
+  
+* **Diagnostics & Procurement Agents:** Anthropic `Claude Sonnet 4.6` (Complex reasoning & Agent-to-Agent handoffs)
+
+* **Structured Output:** Pydantic (Enforcing strict JSON schemas for Purchase Orders)
+
 ### 📂 Repository Structure
 
 ```text
 nexus-giga/
+├── assets/
+│   └── images/                    # Architecture diagrams and execution proofs
+│       ├── mcp-success.png
+│       ├── memory-success.png
+│       └── Nexus-Giga-architecture.png
 ├── backend/
+│   ├── agents/
+│   │   ├── diagnostics.py         # Diagnostics Agent (Claude Sonnet 4.6)
+│   │   └── orchestrator.py        # Multi-Agent Brain (Gemini Triage ( Gemini 3 Flash Preview ) + Claude A2A)
 │   ├── mcp/
-│   │   └── mcp_server.py      # Core Model Context Protocol Server
-│   ├── rag/
-│   │   └── ingest.py          # LlamaIndex Hybrid Search PDF Ingestion
-│   └── memory/
-│       └── memory_manager.py  # Mem0 Long-Term Agent Memory Initialization
+│   │   └── mcp_server.py          # Secure Model Context Protocol Server
+│   ├── memory/
+│   │   └── memory_manager.py      # Mem0 Long-Term Agent Memory Initialization
+│   └── rag/
+│       └── ingest.py              # LlamaIndex Hybrid Search PDF Ingestion
 ├── data/
-│   ├── factory_inventory.db   # Local SQLite Database
+│   ├── factory_inventory.db       # Local SQLite Enterprise Database
 │   └── V-101_Vacuum_Gripper_Manual.pdf # Synthetic Equipment Manual
-├── init_db.py                 # Database bootstrapping script
-├── generate_pdf.py            # PDF Mock Data Generator
-├── requirements.txt           # Version-locked dependencies
-├── .env                       # API Keys (Git-ignored)
-├── .gitignore
-├── LICENSE                    # MIT License
-└── README.md
+├── generate_pdf.py                # PDF Mock Data Generator
+├── init_db.py                     # Database bootstrapping script
+├── LICENSE                        # MIT License
+├── README.md                      # Project documentation
+└── requirements.txt               # Project dependencies
 ```
 
 ### 🚀 Getting Started
@@ -115,7 +129,7 @@ ANTHROPIC_API_KEY="your-anthropic-key"
 
 ### ⚙️ Execution
 
-* **Phase 1: Local Data Bridge**
+#### Phase 1: Local Data Bridge
 
 1. Initialize the Mock Enterprise Database:
 
@@ -135,7 +149,7 @@ npx @modelcontextprotocol/inspector python backend/mcp/mcp_server.py
 
 ![MCP Inspector Success](assets/images/mcp-success.png)
 
-* **Phase 2: RAG & Memory Pipeline**
+#### Phase 2: RAG & Memory Pipeline
 
 1. Generate the synthetic technical manual:
 
@@ -156,6 +170,18 @@ python backend/memory/memory_manager.py
 ```
 
 ![Mem0 Execution Success](assets/images/memory-success.png)
+
+#### Phase 3:The Multi-Agent Brain
+
+Execute the cental orchestrator to witness the Agent-to-Agent (A2A) handoff in the terminal:
+
+```bash
+python backend/agents/orchestrator.py
+```
+
+![Orchestrator Execution Success - Part 1](assets/images/orchestrator-1.png)
+
+![Orchestrator Execution Success - Part 2](assets/images/orchestrator-2.png)
 
 ### 🛡️ Security & Privacy
 
