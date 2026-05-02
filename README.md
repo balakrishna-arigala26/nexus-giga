@@ -8,7 +8,7 @@
 [![OpenAI](https://img.shields.io/badge/AI-OpenAI-412991.svg)](https://openai.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-![System Architecture](assets/images/Nexus-Giga-architecture.png)
+![System Architecture](assets/images/Nexus-Giga-Architecture-Phase3.png)
 
 ### 📖 Overview
 
@@ -50,9 +50,9 @@ By leveraging Agentic RAG, Enterprise Long-Term Memory (Mem0), and the Model Con
 
 #### Phase 3: The Multi-Agent Brain
 
-* **Triage & Roting:** `Gemini 3 Flash Preview` (High-speed issue classification)
+* **Triage & Roting:** `gemini-3-flash-preview` (High-speed issue classification)
   
-* **Diagnostics & Procurement Agents:** Anthropic `Claude Sonnet 4.6` (Complex reasoning & Agent-to-Agent handoffs)
+* **Diagnostics & Procurement Agents:** Anthropic `claude-sonnet-4-6` (Complex reasoning & Agent-to-Agent handoffs)
 
 * **Structured Output:** Pydantic (Enforcing strict JSON schemas for Purchase Orders)
 
@@ -125,6 +125,7 @@ Create a .env file in the root directory and add your API keys:
 PINECONE_API_KEY="your-pinecone-key"
 OPENAI_API_KEY="your-openai-key"
 ANTHROPIC_API_KEY="your-anthropic-key"
+GOOGLE_API_KEY="your_gemini_api_key"
 ```
 
 ### ⚙️ Execution
