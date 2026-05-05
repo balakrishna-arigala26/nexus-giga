@@ -8,8 +8,6 @@
 [![OpenAI](https://img.shields.io/badge/AI-OpenAI-412991.svg)](https://openai.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-![System Architecture](assets/images/Nexus-Giga-Architecture-Phase3.png)
-
 ### 📖 Overview
 
 Nexus-Giga is an autonomous, multi-agent ecosystem designed for industrial giga-factories. It bridges the critical gap between unstructured technical knowledge (PDF equipment manuals) and structured enterprise data (telemetry, SQL databases) to fully automate the equipment maintenance and procurement lifecycle.
@@ -50,11 +48,15 @@ By leveraging Agentic RAG, Enterprise Long-Term Memory (Mem0), and the Model Con
 
 #### Phase 3: The Multi-Agent Brain
 
-* **Triage & Roting:** `gemini-3-flash-preview` (High-speed issue classification)
-  
-* **Diagnostics & Procurement Agents:** Anthropic `claude-sonnet-4-6` (Complex reasoning & Agent-to-Agent handoffs)
+* **Orchestration Framework:** Google ADK (Agent Development Kit for defining and running autonomous agents)
 
-* **Structured Output:** Pydantic (Enforcing strict JSON schemas for Purchase Orders)
+* **Reasoning Engine:** Anthropic Claude Sonnet 4.6 (Optimized for complex MCP tool-calling and logical deduction)
+
+* **Communication Protocol:** A2A (Agent-to-Agent standard over local HTTP on Port 8000)
+
+* **Tool Integration:** MCP Toolset (Bridging the FastMCP server directly into the ADK agent's brain)
+
+* **Output Control:** Strict XML Prompting & Client-Side Parsing (Ensures 100% deterministic Markdown generation without conversational hallucinations)
 
 ### 📂 Repository Structure
 
@@ -87,7 +89,7 @@ nexus-giga/
 
 ### 🚀 Getting Started
 
-`Prerequisites`
+#### Prerequisites
 
 * Python 3.10 or higher
 
@@ -95,29 +97,29 @@ nexus-giga/
 
 * Active API Keys for OpenAI and Pinecone
 
-`Installation`
+#### Installation
 
-1. Clone the repository:
+**1. Clone the repository:**
 
 ```bash
 git clone [https://github.com/your-username/nexus-giga.git](https://github.com/your-username/nexus-giga.git)
 cd nexus-giga
 ```
 
-2. Set up the virtual environment:
+**2. Set up the virtual environment:**
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate # On Windows use: venv\Scripts\activate
 ```
 
-3. Install dependencies:
+**3. Install dependencies:**
 
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Configure Environment Variables:
+**4. Configure Environment Variables:**
 
 Create a .env file in the root directory and add your API keys:
 
@@ -132,7 +134,7 @@ GOOGLE_API_KEY="your_gemini_api_key"
 
 #### Phase 1: Local Data Bridge
 
-1. Initialize the Mock Enterprise Database:
+**1. Initialize the Mock Enterprise Database:**
 
 Populates the `data/` directory with mock factory equipment and telemetry logs.
 
@@ -140,7 +142,7 @@ Populates the `data/` directory with mock factory equipment and telemetry logs.
 python init_db.py
 ```
 
-2. Run the MCP Server (Interactive Testing):
+**2. Run the MCP Server (Interactive Testing):**
 
 Launch the local MCP Inspector to simulate an LLM querying the data bridge.
 
@@ -152,19 +154,19 @@ npx @modelcontextprotocol/inspector python backend/mcp/mcp_server.py
 
 #### Phase 2: RAG & Memory Pipeline
 
-1. Generate the synthetic technical manual:
+**1. Generate the synthetic technical manual:**
 
 ```bash
 python generate_pdf.py
 ```
 
-2. Chunk, embed, and upsert the manual to Pinecone:
+**2. Chunk, embed, and upsert the manual to Pinecone:**
 
 ```bash
 python backend/rag/ingest.py
 ```
 
-3. Initialize the Mem0 historical maintenance database:
+**3. Initialize the Mem0 historical maintenance database:**
 
 ```bash
 python backend/memory/memory_manager.py
@@ -174,15 +176,29 @@ python backend/memory/memory_manager.py
 
 #### Phase 3:The Multi-Agent Brain
 
-Execute the cental orchestrator to witness the Agent-to-Agent (A2A) handoff in the terminal:
+**1. Start the Deterministic A2A Server (Terminal 1):**
+
+This spins up the Google ADK orchestrator, locked to a strict Markdown template to ensure production-grade diagnostic reports.
 
 ```bash
-python backend/agents/orchestrator.py
+python backend/api/a2a_server.py
 ```
 
-![Orchestrator Execution Success - Part 1](assets/images/orchestrator-1.png)
+![A2A Orchestrator Server Startup](assets/images/a2a-orchestrator-server-startup.png)
 
-![Orchestrator Execution Success - Part 2](assets/images/orchestrator-2.png)
+*Fig : Warning-free initialization of the Google ADK multi-agent orchestrator on Port 8000.*
+
+**2. Test the Internal A2A Client (Terminal 2):**
+
+Verify the multi-agent reasoning engine is communicating securely and generating the correct output format.
+
+```bash
+python backend/tests/test_a2a_client.py
+```
+
+![A2A Diagnostic Client Execution](assets/images/a2a-diagnostic-client-execution.png)
+
+*Fig : Deterministic Markdown generation via the A2A client parser, stripping conversational LLM hallucinations.*
 
 ### 🛡️ Security & Privacy
 
