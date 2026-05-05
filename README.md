@@ -62,29 +62,26 @@ By leveraging Agentic RAG, Enterprise Long-Term Memory (Mem0), and the Model Con
 
 ```text
 nexus-giga/
-├── assets/
-│   └── images/                    # Architecture diagrams and execution proofs
-│       ├── mcp-success.png
-│       ├── memory-success.png
-│       └── Nexus-Giga-architecture.png
-├── backend/
-│   ├── agents/
-│   │   ├── diagnostics.py         # Diagnostics Agent (Claude Sonnet 4.6)
-│   │   └── orchestrator.py        # Multi-Agent Brain (Gemini Triage ( Gemini 3 Flash Preview ) + Claude A2A)
-│   ├── mcp/
-│   │   └── mcp_server.py          # Secure Model Context Protocol Server
-│   ├── memory/
-│   │   └── memory_manager.py      # Mem0 Long-Term Agent Memory Initialization
-│   └── rag/
-│       └── ingest.py              # LlamaIndex Hybrid Search PDF Ingestion
-├── data/
-│   ├── factory_inventory.db       # Local SQLite Enterprise Database
-│   └── V-101_Vacuum_Gripper_Manual.pdf # Synthetic Equipment Manual
-├── generate_pdf.py                # PDF Mock Data Generator
-├── init_db.py                     # Database bootstrapping script
-├── LICENSE                        # MIT License
-├── README.md                      # Project documentation
-└── requirements.txt               # Project dependencies
+├── 📁 assets/                 # Static assets for documentation
+│   └── 📁 images/             # Execution screenshots and architecture diagrams
+├── 📁 backend/                # Core application logic
+│   ├── 📁 api/                # Multi-agent orchestrator & API bridging
+│   │   └── 📄 a2a_server.py   # Deterministic Google ADK Agent Server
+│   ├── 📁 mcp/                # Secure data integration layer
+│   │   └── 📄 mcp_server.py   # FastMCP bridge connecting LLMs to local DB
+│   ├── 📁 memory/             # Stateful agent memory
+│   │   └── 📄 memory_manager.py # Mem0 historical context tracker
+│   ├── 📁 rag/                # Knowledge retrieval pipeline
+│   │   └── 📄 ingest.py       # Pinecone & LlamaIndex vectorization
+│   └── 📁 tests/              # System validation & testing
+│       └── 📄 test_a2a_client.py # Deterministic client parser for A2A logic
+├── 📁 data/                   # Local databases and raw files
+│   ├── 📄 factory_inventory.db # Mock SQLite enterprise database
+│   └── 📄 V-101_Vacuum_Gripper_Manual.pdf # Synthetic unstructured knowledge
+├── 📄 generate_pdf.py         # Bootstrap: Creates mock technical manuals
+├── 📄 init_db.py              # Bootstrap: Seeds the SQLite database
+├── 📄 README.md               # Project documentation
+└── 📄 requirements.txt        # Pinned, conflict-free dependency map
 ```
 
 ### 🚀 Getting Started
