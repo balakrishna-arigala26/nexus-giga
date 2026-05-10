@@ -6,6 +6,8 @@
 [![MCP](https://img.shields.io/badge/Protocol-MCP-purple.svg)](https://modelcontextprotocol.io/)
 [![Vector DB](https://img.shields.io/badge/Database-Pinecone-blue.svg)](https://www.pinecone.io/)
 [![OpenAI](https://img.shields.io/badge/AI-OpenAI-412991.svg)](https://openai.com/)
+[![Anthropic](https://img.shields.io/badge/AI-Anthropic_Claude-D97757.svg)](https://www.anthropic.com/)
+[![Gemini](https://img.shields.io/badge/AI-Google_Gemini-8E75B2.svg)](https://gemini.google.com/)
 [![React](https://img.shields.io/badge/UI-Next.js-black.svg)](https://nextjs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -109,7 +111,7 @@ nexus-giga/
 
 * **Node.js (v20.9.0+) & npm** (Required to run the Next.js React frontend)
 
-* **Active API Keys** configured in your `.env` file (OpenAI, Anthropic Claude, Goole Gemini, Pinecone)
+* **Active API Keys** configured in your `.env` file (OpenAI, Anthropic Claude, Google Gemini, Pinecone)
 
 #### Installation
 
