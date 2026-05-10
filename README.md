@@ -6,6 +6,7 @@
 [![MCP](https://img.shields.io/badge/Protocol-MCP-purple.svg)](https://modelcontextprotocol.io/)
 [![Vector DB](https://img.shields.io/badge/Database-Pinecone-blue.svg)](https://www.pinecone.io/)
 [![OpenAI](https://img.shields.io/badge/AI-OpenAI-412991.svg)](https://openai.com/)
+[![React](https://img.shields.io/badge/UI-Next.js-black.svg)](https://nextjs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ### 📖 Overview
@@ -22,9 +23,9 @@ By leveraging Agentic RAG, Enterprise Long-Term Memory (Mem0), and the Model Con
 
 * [x] **Phase 3: The Multi-Agent Brain** (Complete)
 
-* [ ] **Phase 4: Streaming & UX** (Upnext)
-
-* [ ] **Phase 5: Evaluation & Production**
+* [x] **Phase 4: Streaming & UX**  (Complete)
+  
+* [ ] **Phase 5: Evaluation & Production** (Upnext)
 
 ### 🏗️ Architecture & Tech Stack
 
@@ -58,6 +59,18 @@ By leveraging Agentic RAG, Enterprise Long-Term Memory (Mem0), and the Model Con
 
 * **Output Control:** Strict XML Prompting & Client-Side Parsing (Ensures 100% deterministic Markdown generation without conversational hallucinations)
 
+#### Phase 4: Streaming & UX
+
+* **API Bridge:** FastAPI (High-performance asynchronous Python framework running on Port 5000 to wrap the ADK workflow)
+
+* **Streaming Protocol:** Server-Sent Events / SSE (Delivering real-time agent reasoning loops and status updates directly to the client)
+
+* **Data Extraction:** Deep Artifact Parsing (Bypassing Python `repr()` limits to securely extract raw, un-truncated Markdown directly from ADK memory)
+
+* **Frontend Framework:** Next.js & React (Enterprise-grade UI architecture running on Port 3000)
+
+* **Styling & Rendering:** Tailwind CSS & React-Markdown (Clean, dark-mode terminal rendering for deterministic display of AI diagnostic reports)
+
 ### 📂 Repository Structure
 
 ```text
@@ -66,7 +79,8 @@ nexus-giga/
 │   └── 📁 images/             # Execution screenshots and architecture diagrams
 ├── 📁 backend/                # Core application logic
 │   ├── 📁 api/                # Multi-agent orchestrator & API bridging
-│   │   └── 📄 a2a_server.py   # Deterministic Google ADK Agent Server
+│   │   ├── 📄 a2a_server.py   # Deterministic Google ADK Agent Server
+│   │   └── 📄 main.py         # FastAPI SSE Streaming Bridge (Port 5000)
 │   ├── 📁 mcp/                # Secure data integration layer
 │   │   └── 📄 mcp_server.py   # FastMCP bridge connecting LLMs to local DB
 │   ├── 📁 memory/             # Stateful agent memory
@@ -78,6 +92,9 @@ nexus-giga/
 ├── 📁 data/                   # Local databases and raw files
 │   ├── 📄 factory_inventory.db # Mock SQLite enterprise database
 │   └── 📄 V-101_Vacuum_Gripper_Manual.pdf # Synthetic unstructured knowledge
+├── 📁 frontend/               # Next.js React Enterprise Console
+│   ├── 📁 src/app/            # App router components (page.tsx, globals.css)
+│   └── 📄 package.json        # Node.js dependencies
 ├── 📄 generate_pdf.py         # Bootstrap: Creates mock technical manuals
 ├── 📄 init_db.py              # Bootstrap: Seeds the SQLite database
 ├── 📄 README.md               # Project documentation
@@ -88,11 +105,11 @@ nexus-giga/
 
 #### Prerequisites
 
-* Python 3.10 or higher
+* **Python 3.10+** (Required for the FastAPI bridge, ADK Orchestrator, and MCP Server)
 
-* Node.js (v18+) & npm (required for the MCP Inspector testing UI)
+* **Node.js (v20.9.0+) & npm** (Required to run the Next.js React frontend)
 
-* Active API Keys for OpenAI and Pinecone
+* **Active API Keys** configured in your `.env` file (OpenAI, Anthropic Claude, Goole Gemini, Pinecone)
 
 #### Installation
 
@@ -196,6 +213,33 @@ python backend/tests/test_a2a_client.py
 ![A2A Diagnostic Client Execution](assets/images/a2a-diagnostic-client-execution.png)
 
 *Fig : Deterministic Markdown generation via the A2A client parser, stripping conversational LLM hallucinations.*
+
+#### Phase 4:Streaming & UX
+
+(Note: Ensure your A2A Server from Phase 3 is still actively running in Terminal 1!)
+
+**1. Start the FastAPI Streaming Bridge (Terminal 2):**
+
+This spins up the asynchronous Server-Sent Events (SSE) bridge to capture the ADK reasoning loops and safely extract deep memory artifacts.
+
+```bash
+python backend/api/main.py
+```
+
+**2. Boot the Enterprise Console (Terminal 3):**
+
+Launch the Next.js React frontend to render the streaming AI output natively in the browser without Python truncation limits.
+
+```bash
+cd frontend
+npm run dev
+```
+
+Once the server is running, open your web browser and navigate to `http://localhost:3000`, then click the "Run Diagnostics" button to watch the multi-agent reasoning stream in real-time.
+
+![Next.js Diagnostic Console](assets/images/nextjs-diagnostic-console.png)
+
+*Fig : Real-time diagnostic report streaming seamlessly into the Next.js UI, fully rendered via React-Markdown.*
 
 ### 🛡️ Security & Privacy
 
