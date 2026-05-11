@@ -259,13 +259,13 @@ Executes a 20-scenario batch test to mathematically grade the agent's faithfulne
 python backend/tests/evaluate_system.py
 ```
 
+![Ragas Batch Evaluation Metrics](assets/images/ragas-batch-evaluation-metrics.png)
+
+*Fig: Automated Ragas batch evaluation across 20 industrial scenarios, achieving production-grade **Faithfulness (0.88)** and **Relevancy (0.84)** scores.*
+
 **2. View Traces in LangSmith:**
 
 Open your LangSmith dashboard to view the step-by-step reasoning, token usage, and latency metrics of the evaluation judge.
-
-![Ragas Batch Evaluation Metrics](assets/images/ragas-batch-evaluation-metrics.png)
-
-*Fig: Automated Ragas batch evaluation across 20 industrial scenarios, achieving production-grade Faithfulness (0.88) and Relevancy (0.84) scores.*
 
 ![LangSmith Evaluation Trace](assets/images/langsmith-evaluation-trace.png)
 
