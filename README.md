@@ -261,11 +261,15 @@ python backend/tests/evaluate_system.py
 
 **2. View Traces in LangSmith:**
 
-Open your LangSmith dashboard to view the step-by-step reasoning and latency metrics of the evaluation judge.
+Open your LangSmith dashboard to view the step-by-step reasoning, token usage, and latency metrics of the evaluation judge.
 
-![LangSmith Trace](assets/images/langsmith-trace-nexus-giga.png)
+![Ragas Batch Evaluation Metrics](assets/images/ragas-batch-evaluation-metrics.png)
 
-*Fig : LangSmith X-ray vision tracing a perfect 1.0 Faithfulness score during the Ragas batch evaluation.*
+*Fig: Automated Ragas batch evaluation across 20 industrial scenarios, achieving production-grade Faithfulness (0.88) and Relevancy (0.84) scores.*
+
+![LangSmith Evaluation Trace](assets/images/langsmith-evaluation-trace.png)
+
+*Fig: LangSmith observability dashboard displaying the waterfall trace, latency, and granular row-by-row metric grading of the OpenAI judge.*
 
 ### 🛡️ Security & Privacy
 
