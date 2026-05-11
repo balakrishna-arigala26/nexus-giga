@@ -27,7 +27,9 @@ By leveraging Agentic RAG, Enterprise Long-Term Memory (Mem0), and the Model Con
 
 * [x] **Phase 4: Streaming & UX**  (Complete)
   
-* [ ] **Phase 5: Evaluation & Production** (Upnext)
+* [x] **Phase 5: Evaluation & Observability** (Complete)
+
+* [ ] **Phase 6: Containerization & Production** (Up Next)
 
 ### 🏗️ Architecture & Tech Stack
 
@@ -51,11 +53,11 @@ By leveraging Agentic RAG, Enterprise Long-Term Memory (Mem0), and the Model Con
 
 #### Phase 3: The Multi-Agent Brain
 
-* **Orchestration Framework:** Google ADK (Agent Development Kit for defining and running autonomous agents)
+* **Orchestration Framework:** `Google ADK` (Agent Development Kit for defining and running autonomous agents)
 
-* **Reasoning Engine:** Anthropic Claude Sonnet 4.6 (Optimized for complex MCP tool-calling and logical deduction)
+* **Reasoning Engine:** `Anthropic Claude Sonnet 4.6` (Optimized for complex MCP tool-calling and logical deduction)
 
-* **Communication Protocol:** A2A (Agent-to-Agent standard over local HTTP on Port 8000)
+* **Communication Protocol:** `A2A` (Agent-to-Agent standard over local HTTP on Port 8000)
 
 * **Tool Integration:** MCP Toolset (Bridging the FastMCP server directly into the ADK agent's brain)
 
@@ -90,6 +92,7 @@ nexus-giga/
 │   ├── 📁 rag/                # Knowledge retrieval pipeline
 │   │   └── 📄 ingest.py       # Pinecone & LlamaIndex vectorization
 │   └── 📁 tests/              # System validation & testing
+│       ├── 📄 evaluate_system.py # Ragas batch evaluation pipeline
 │       └── 📄 test_a2a_client.py # Deterministic client parser for A2A logic
 ├── 📁 data/                   # Local databases and raw files
 │   ├── 📄 factory_inventory.db # Mock SQLite enterprise database
@@ -144,6 +147,9 @@ PINECONE_API_KEY="your-pinecone-key"
 OPENAI_API_KEY="your-openai-key"
 ANTHROPIC_API_KEY="your-anthropic-key"
 GOOGLE_API_KEY="your_gemini_api_key"
+LANGCHAIN_API_KEY="your-langsmith-key"
+LANGCHAIN_PROJECT="nexus-giga-production"
+LANGCHAIN_TRACING_V2=true
 ```
 
 ### ⚙️ Execution
@@ -242,6 +248,24 @@ Once the server is running, open your web browser and navigate to `http://localh
 ![Next.js Diagnostic Console](assets/images/nextjs-diagnostic-console.png)
 
 *Fig : Real-time diagnostic report streaming seamlessly into the Next.js UI, fully rendered via React-Markdown.*
+
+#### Phase 5: Automated Evaluation & Observability
+
+**1. Run the Ragas Evaluation Pipeline:**
+
+Executes a 20-scenario batch test to mathematically grade the agent's faithfulness and answer relevancy using OpenAI as a judge, with API rate-limit throttling enabled.
+
+```bash
+python backend/tests/evaluate_system.py
+```
+
+**2. View Traces in LangSmith:**
+
+Open your LangSmith dashboard to view the step-by-step reasoning and latency metrics of the evaluation judge.
+
+![LangSmith Trace](assets/images/langsmith-trace-nexus-giga.png)
+
+*Fig : LangSmith X-ray vision tracing a perfect 1.0 Faithfulness score during the Ragas batch evaluation.*
 
 ### 🛡️ Security & Privacy
 
