@@ -75,6 +75,16 @@ By leveraging Agentic RAG, Enterprise Long-Term Memory (Mem0), and the Model Con
 
 * **Styling & Rendering:** Tailwind CSS & React-Markdown (Clean, dark-mode terminal rendering for deterministic display of AI diagnostic reports)
 
+#### Phase 5: Evaluation & Observability
+
+* **Evaluation Framework:** Ragas (Automated metric grading for Agentic RAG)
+
+* **Metrics:** Faithfulness and Answer Relevancy
+
+* **Judge LLM:** OpenAI `gpt-4o-mini`
+
+* **Observability:** LangSmith (Real-time LLM tracing and latency monitoring)
+
 ### 📂 Repository Structure
 
 ```text
