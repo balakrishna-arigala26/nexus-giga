@@ -1,15 +1,38 @@
-# Environments
+# Environment & Secrets
 .env
 venv/
 env/
+.venv/
+.python-version
 
-# Python Cache
+# Python Cache & Build
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
+.pytest_cache/
+.mypy_cache/
 
-# Database
+# Node / Next.js (Crucial for Phase 4 & 6)
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+.npm
+npm-debug.log*
+
+# Docker 
+.dockerignore
+# Do Not ignore Dockerfile or docker-compose.yml (those stay in Git)
+
+# Databases & Large Data
 data/*.db
+data/*.sqlite
+# Optional: Ignore generated PDFs if you don't want them in the repo
+# data/*.pdf
 
-# OS generated files
-.DS_Store
+# IDE & OS
+.vscode/
+.idea/
+DS_Store
+Thumbs.db
