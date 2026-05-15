@@ -10,6 +10,7 @@
 [![Gemini](https://img.shields.io/badge/AI-Google_Gemini-8E75B2.svg)](https://gemini.google.com/)
 [![React](https://img.shields.io/badge/UI-Next.js-black.svg)](https://nextjs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Docker](https://img.shields.io/badge/Container-Docker-2496ED.svg)](https://www.docker.com/)
 
 ### 📖 Overview
 
@@ -19,138 +20,118 @@ By leveraging Agentic RAG, Enterprise Long-Term Memory (Mem0), and the Model Con
 
 ### 📊 Project Roadmap & Status
 
-* [x] **Phase 1: The Secure Data Bridge** (Complete)
+- **[x] Phase 1: The Secure Data Bridge** (Complete)
 
-* [x] **Phase 2: Enterprise Knowledge & Memory** (Complete)
+- **[x] Phase 2: Enterprise Knowledge & Memory** (Complete)
 
-* [x] **Phase 3: The Multi-Agent Brain** (Complete)
+- **[x] Phase 3: The Multi-Agent Brain** (Complete)
 
-* [x] **Phase 4: Streaming & UX**  (Complete)
-  
-* [x] **Phase 5: Evaluation & Observability** (Complete)
+- **[x] Phase 4: Streaming & UX** (Complete)
 
-* [ ] **Phase 6: Containerization & Production** (Up Next)
+- **[x] Phase 5: Evaluation & Observability** (Complete)
+
+- **[x] Phase 6: Hybrid Containerization & Production** (Complete)
+
+- **[ ] Phase 7: GCP Cloud Deployment (Up Next)**
 
 ### 🏗️ Architecture & Tech Stack
 
-#### Phase 1: The Secure Data Bridge
+#### Phase 1 to 5: Core Brain & Data
 
-* **Database:** SQLite
+- **Vector Database:** Pinecone (Configured for Hybrid Search: Dense + Sparse vectors)
 
-* **Protocol:** FastMCP (Model Context Protocol)
+- **Protocol:** FastMCP (Strict read-only SQLite connections to prevent DB hallucinations)
 
-* **Security:** Strict read-only (`mode=ro`) SQLite connections to prevent LLM hallucinations from corrupting localized databases.
+- **RAG & Memory:** LlamaIndex & Mem0
 
-#### Phase 2: Enterprise Knowledge & Memory
-  
-* **Vector Database:** Pinecone (Configured for Hybrid Search: Dense + Sparse vectors)
+- **Orchestration & Reasoning:** Google ADK running Anthropic Claude Sonnet 4.6
 
-* **Embeddings:** OpenAI `text-embedding-ada-002` (1536 dimensions)
+- **API Bridge:** FastAPI (Port 5000) utilizing Server-Sent Events (SSE)
 
-* **RAG Orchestration:** LlamaIndex
+- **Observability:** Ragas & LangSmith
 
-* **Long-Term Memory:** Mem0 (Powered by OpenAI `gpt-4o-mini` for historical episodic memory retrieval)
+#### Phase 6: Enterprise Hybrid Architecture
 
-#### Phase 3: The Multi-Agent Brain
+To securely handle private enterprise packages (`a2a`, `google-adk`) while maintaining a cloud-ready UI, the system utilizes a hybrid local/containerized architecture:
 
-* **Orchestration Framework:** `Google ADK` (Agent Development Kit for defining and running autonomous agents)
+- **The Backend (Native via** `uv`): The Python orchestrator and API bridge run natively to bypass Docker registry restrictions on private SDKs. Dependency management is handled blazingly fast via Astral's `uv`.
 
-* **Reasoning Engine:** `Anthropic Claude Sonnet 4.6` (Optimized for complex MCP tool-calling and logical deduction)
-
-* **Communication Protocol:** `A2A` (Agent-to-Agent standard over local HTTP on Port 8000)
-
-* **Tool Integration:** MCP Toolset (Bridging the FastMCP server directly into the ADK agent's brain)
-
-* **Output Control:** Strict XML Prompting & Client-Side Parsing (Ensures 100% deterministic Markdown generation without conversational hallucinations)
-
-#### Phase 4: Streaming & UX
-
-* **API Bridge:** FastAPI (High-performance asynchronous Python framework running on Port 5000 to wrap the ADK workflow)
-
-* **Streaming Protocol:** Server-Sent Events / SSE (Delivering real-time agent reasoning loops and status updates directly to the client)
-
-* **Data Extraction:** Deep Artifact Parsing (Bypassing Python `repr()` limits to securely extract raw, un-truncated Markdown directly from ADK memory)
-
-* **Frontend Framework:** Next.js & React (Enterprise-grade UI architecture running on Port 3000)
-
-* **Styling & Rendering:** Tailwind CSS & React-Markdown (Clean, dark-mode terminal rendering for deterministic display of AI diagnostic reports)
-
-#### Phase 5: Evaluation & Observability
-
-* **Evaluation Framework:** Ragas (Automated metric grading for Agentic RAG)
-
-* **Metrics:** Faithfulness and Answer Relevancy
-
-* **Judge LLM:** OpenAI `gpt-4o-mini`
-
-* **Observability:** LangSmith (Real-time LLM tracing and latency monitoring)
+- **The Frontend (Docker):** The Next.js React console is containerized using a multi-stage Docker build, utilizing Next.js `standalone` mode to shrink the production image from 1.6GB down to ~187MB.
 
 ### 📂 Repository Structure
 
 ```text
-nexus-giga/
-├── 📁 assets/                 # Static assets for documentation
-│   └── 📁 images/             # Execution screenshots and architecture diagrams
-├── 📁 backend/                # Core application logic
-│   ├── 📁 api/                # Multi-agent orchestrator & API bridging
-│   │   ├── 📄 a2a_server.py   # Deterministic Google ADK Agent Server
-│   │   └── 📄 main.py         # FastAPI SSE Streaming Bridge (Port 5000)
-│   ├── 📁 mcp/                # Secure data integration layer
-│   │   └── 📄 mcp_server.py   # FastMCP bridge connecting LLMs to local DB
-│   ├── 📁 memory/             # Stateful agent memory
-│   │   └── 📄 memory_manager.py # Mem0 historical context tracker
-│   ├── 📁 rag/                # Knowledge retrieval pipeline
-│   │   └── 📄 ingest.py       # Pinecone & LlamaIndex vectorization
-│   └── 📁 tests/              # System validation & testing
-│       ├── 📄 evaluate_system.py # Ragas batch evaluation pipeline
-│       └── 📄 test_a2a_client.py # Deterministic client parser for A2A logic
-├── 📁 data/                   # Local databases and raw files
-│   ├── 📄 factory_inventory.db # Mock SQLite enterprise database
-│   └── 📄 V-101_Vacuum_Gripper_Manual.pdf # Synthetic unstructured knowledge
-├── 📁 frontend/               # Next.js React Enterprise Console
-│   ├── 📁 src/app/            # App router components (page.tsx, globals.css)
-│   └── 📄 package.json        # Node.js dependencies
-├── 📄 generate_pdf.py         # Bootstrap: Creates mock technical manuals
-├── 📄 init_db.py              # Bootstrap: Seeds the SQLite database
-├── 📄 README.md               # Project documentation
-└── 📄 requirements.txt        # Pinned, conflict-free dependency map
+📦 nexus-giga
+├── 📂 assets                 # Static assets for documentation
+│   └── 🖼️ images             # Execution screenshots and architecture diagrams
+├── ⚙️ backend                # Core Python application logic
+│   ├── 🌐 api                # Multi-agent orchestrator & API bridging
+│   │   ├── 🐍 a2a_server.py  # Deterministic Google ADK Agent Server
+│   │   └── 🐍 main.py        # FastAPI SSE Streaming Bridge
+│   ├── 🔌 mcp                # Secure data integration layer
+│   │   └── 🐍 mcp_server.py  # FastMCP bridge connecting LLMs to local DB
+│   ├── 🧠 memory             # Stateful agent memory
+│   │   └── 🐍 memory_manager.py
+│   ├── 📚 rag                # Knowledge retrieval pipeline
+│   │   └── 🐍 ingest.py      # Vectorization and database ingestion
+│   └── 🧪 tests              # System validation & testing
+│       ├── 🐍 evaluate_system.py
+│       └── 🐍 test_a2a_client.py
+├── 🗄️ data                   # Local databases and raw files
+│   ├── 🗃️ factory_inventory.db
+│   └── 📄 V-101_Vacuum_Gripper_Manual.pdf
+├── 💻 frontend               # Next.js React Enterprise Console
+│   ├── 🐳 Dockerfile         # Multi-stage optimized UI build
+│   ├── 🌍 public             # Public static assets (SVGs, icons)
+│   ├── ⚛️ src/app            # Next.js App Router components
+│   │   ├── 🎨 globals.css
+│   │   ├── 🧩 layout.tsx
+│   │   └── 📄 page.tsx
+│   └── 🛠️ configs            # UI settings (package.json, next.config.ts, etc.)
+├── 📜 scripts                # Database and data bootstrapping utilities
+│   ├── 🐍 generate_pdf.py    # Creates mock technical manuals
+│   └── 🐍 init_db.py         # Seeds the SQLite database
+├── 🐳 docker-compose.yml     # Container orchestration for the UI
+├── 📦 pyproject.toml         # Python dependency configurations (uv)
+├── 🔒 uv.lock                # Locked Python dependency resolution
+├── 📖 README.md              # Main project documentation
+└── ⚖️ LICENSE                # Open-source license terms
 ```
 
 ### 🚀 Getting Started
 
 #### Prerequisites
 
-* **Python 3.10+** (Required for the FastAPI bridge, ADK Orchestrator, and MCP Server)
+- **Python 3.12+**
 
-* **Node.js (v20.9.0+) & npm** (Required to run the Next.js React frontend)
+- **Docker Desktop / Engine** (Required for the Next.js UI)
 
-* **Active API Keys** configured in your `.env` file (OpenAI, Anthropic Claude, Google Gemini, Pinecone)
+- `uv` (The lightning-fast Python package manager)
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
 
 #### Installation
 
 **1. Clone the repository:**
 
 ```bash
-git clone [https://github.com/your-username/nexus-giga.git](https://github.com/your-username/nexus-giga.git)
+git clone https://github.com/balakrishna-arigala26/nexus-giga.git
 cd nexus-giga
 ```
 
-**2. Set up the virtual environment:**
+**2. Install Python Dependencies (Backend):**
+
+We use `uv` for dependency management. This single command will instantly read `pyproject.toml` and create a perfectly synced `.venv` environment natively.
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate # On Windows use: venv\Scripts\activate
+uv sync
 ```
 
-**3. Install dependencies:**
+**3. Configure Environment Variables:**
 
-```bash
-pip install -r requirements.txt
-```
-
-**4. Configure Environment Variables:**
-
-Create a .env file in the root directory and add your API keys:
+Create a `.env` file in the root directory and add your API keys:
 
 ```text
 PINECONE_API_KEY="your-pinecone-key"
@@ -164,126 +145,52 @@ LANGCHAIN_TRACING_V2=true
 
 ### ⚙️ Execution
 
-#### Phase 1: Local Data Bridge
+#### Bootstrapping Data (First-Time Setup)
 
-**1. Initialize the Mock Enterprise Database:**
-
-Populates the `data/` directory with mock factory equipment and telemetry logs.
+**Initialize the Mock Database & PDF Knowledge:**
 
 ```bash
-python init_db.py
+uv run scripts/init_db.py
+uv run scripts/generate_pdf.py
+uv run backend/rag/ingest.py
+uv run backend/memory/memory_manager.py
 ```
 
-**2. Run the MCP Server (Interactive Testing):**
+**Running the Production Architecture:**
 
-Launch the local MCP Inspector to simulate an LLM querying the data bridge.
+To bring the entire architecture online, you must boot the Docker frontend, plus **two active terminal windows** for the native backend components.
+
+**1. Start the Dockerized Enterprise Console:**
+
+This will build and deploy the optimized 187MB Next.js image.
 
 ```bash
-npx @modelcontextprotocol/inspector python backend/mcp/mcp_server.py
+docker compose up -d --build
 ```
 
-![MCP Inspector Success](assets/images/mcp-success.png)
-
-#### Phase 2: RAG & Memory Pipeline
-
-**1. Generate the synthetic technical manual:**
+**2. Start the AI Orchestrator (Terminal 1):**
 
 ```bash
-python generate_pdf.py
+uv run python backend/api/a2a_server.py
 ```
 
-**2. Chunk, embed, and upsert the manual to Pinecone:**
+**3. Start the FastAPI SSE Bridge (Terminal 2):**
 
 ```bash
-python backend/rag/ingest.py
+uv run python backend/api/main.py
 ```
 
-**3. Initialize the Mem0 historical maintenance database:**
+**4. Run Diagnostics:**
 
-```bash
-python backend/memory/memory_manager.py
-```
-
-![Mem0 Execution Success](assets/images/memory-success.png)
-
-#### Phase 3:The Multi-Agent Brain
-
-**1. Start the Deterministic A2A Server (Terminal 1):**
-
-This spins up the Google ADK orchestrator, locked to a strict Markdown template to ensure production-grade diagnostic reports.
-
-```bash
-python backend/api/a2a_server.py
-```
-
-![A2A Orchestrator Server Startup](assets/images/a2a-orchestrator-server-startup.png)
-
-*Fig : Warning-free initialization of the Google ADK multi-agent orchestrator on Port 8000.*
-
-**2. Test the Internal A2A Client (Terminal 2):**
-
-Verify the multi-agent reasoning engine is communicating securely and generating the correct output format.
-
-```bash
-python backend/tests/test_a2a_client.py
-```
-
-![A2A Diagnostic Client Execution](assets/images/a2a-diagnostic-client-execution.png)
-
-*Fig : Deterministic Markdown generation via the A2A client parser, stripping conversational LLM hallucinations.*
-
-#### Phase 4:Streaming & UX
-
-(Note: Ensure your A2A Server from Phase 3 is still actively running in Terminal 1!)
-
-**1. Start the FastAPI Streaming Bridge (Terminal 2):**
-
-This spins up the asynchronous Server-Sent Events (SSE) bridge to capture the ADK reasoning loops and safely extract deep memory artifacts.
-
-```bash
-python backend/api/main.py
-```
-
-**2. Boot the Enterprise Console (Terminal 3):**
-
-Launch the Next.js React frontend to render the streaming AI output natively in the browser without Python truncation limits.
-
-```bash
-cd frontend
-npm run dev
-```
-
-Once the server is running, open your web browser and navigate to `http://localhost:3000`, then click the "Run Diagnostics" button to watch the multi-agent reasoning stream in real-time.
+Open your browser and navigate to `http://localhost:3000`. The diagnostic query is already pre-filled. Simply click **Run Diagnostics** to watch the multi-agent reasoning stream in real-time!
 
 ![Next.js Diagnostic Console](assets/images/nextjs-diagnostic-console.png)
 
 *Fig : Real-time diagnostic report streaming seamlessly into the Next.js UI, fully rendered via React-Markdown.*
 
-#### Phase 5: Automated Evaluation & Observability
-
-**1. Run the Ragas Evaluation Pipeline:**
-
-Executes a 20-scenario batch test to mathematically grade the agent's faithfulness and answer relevancy using OpenAI as a judge, with API rate-limit throttling enabled.
-
-```bash
-python backend/tests/evaluate_system.py
-```
-
-![Ragas Batch Evaluation Metrics](assets/images/ragas-batch-evaluation-metrics.png)
-
-*Fig: Automated Ragas batch evaluation across 20 industrial scenarios, achieving production-grade **Faithfulness (0.88)** and **Relevancy (0.84)** scores.*
-
-**2. View Traces in LangSmith:**
-
-Open your LangSmith dashboard to view the step-by-step reasoning, token usage, and latency metrics of the evaluation judge.
-
-![LangSmith Evaluation Trace](assets/images/langsmith-evaluation-trace.png)
-
-*Fig: LangSmith observability dashboard displaying the waterfall trace, latency, and granular row-by-row metric grading of the OpenAI judge.*
-
 ### 🛡️ Security & Privacy
 
-This application is designed with enterprise zero-trust principles. The MCP server acts as an isolation layer. Language models are only provided explicitly defined tools (e.g., `get_equipment_status`) and cannot execute arbitrary SQL queries against the local datastore.
+This application is designed with enterprise zero-trust principles. The MCP server acts as an isolation layer. Language models are only provided explicitly defined tools (e.g., `get_equipment_status`) and cannot execute arbitrary SQL queries against the local datastore. Private dependencies (`a2a`, `google-adk`) are protected via native host execution.
 
 ### 📄 License
 

@@ -1,0 +1,28 @@
+[project]
+name = "nexus-giga"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "a2a-sdk==0.3.26",
+    "aiosqlite>=0.22.1",
+    "anthropic>=0.101.0",
+    "datasets>=4.8.5",
+    "fastapi>=0.136.1",
+    "fastmcp>=3.2.4",
+    "google-adk>=1.33.0",
+    "google-genai>=1.75.0",
+    "langchain>=1.2.18",
+    "langchain-anthropic>=1.4.3",
+    "langchain-google-genai>=4.2.2",
+    "langchain-openai>=1.2.1",
+    "litellm>=1.83.0",
+    "llama-index>=0.14.21",
+    "llama-index-vector-stores-pinecone>=0.8.0",
+    "mcp>=1.27.1",
+    "mem0ai>=2.0.2",
+    "python-dotenv>=1.2.2",
+    "ragas>=0.4.3",
+    "uvicorn>=0.46.0",
+]

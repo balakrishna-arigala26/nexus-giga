@@ -23,9 +23,10 @@ from mcp.client.stdio import StdioServerParameters
 from google.adk.tools.mcp_tool.mcp_session_manager import StdioConnectionParams
 
 # 2. Create the standard MCP parameters
+# Changed command from "python" to "uv" and updated the args
 base_mcp_params = StdioServerParameters(
-    command="python", 
-    args=["backend/mcp/mcp_server.py"]
+    command="uv", 
+    args=["run", "python", "backend/mcp/mcp_server.py"]
 )
 
 # Pass them into the ADK wrapper
@@ -83,5 +84,5 @@ if __name__ == "__main__":
     import uvicorn
     print("🚀 Starting clean A2A Diagnostics Agent on port 8000...")
     # Run the A2A server locally
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
 
