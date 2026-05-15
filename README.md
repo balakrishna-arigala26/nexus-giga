@@ -20,6 +20,8 @@ By leveraging Agentic RAG, Enterprise Long-Term Memory (Mem0), and the Model Con
 
 ![Nexus-Giga Hybrid Architecture](assets/images/nexus-giga-architecture.png)
 
+*Fig: Nexus-Giga Enterprise Hybrid Architecture detailing the multi-agent orchestrator, FastMCP data bridge, and Dockerized Next.js console.*
+
 ### 📊 Project Roadmap & Status
 
 - **[x] Phase 1: The Secure Data Bridge** (Complete)
