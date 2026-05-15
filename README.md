@@ -18,6 +18,8 @@ Nexus-Giga is an autonomous, multi-agent ecosystem designed for industrial giga-
 
 By leveraging Agentic RAG, Enterprise Long-Term Memory (Mem0), and the Model Context Protocol (MCP), Nexus-Giga ensures secure, localized data processing while granting cloud agents the context they need to perform autonomous factory triage.
 
+![Nexus-Giga Hybrid Architecture](assets/images/nexus-giga-architecture.png)
+
 ### 📊 Project Roadmap & Status
 
 - **[x] Phase 1: The Secure Data Bridge** (Complete)
