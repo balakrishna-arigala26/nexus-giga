@@ -200,9 +200,9 @@ uv run python backend/api/main.py
 
 Open your browser and navigate to `http://localhost:3000`. The diagnostic query is already pre-filled. Simply click **Run Diagnostics** to watch the multi-agent reasoning stream in real-time!
 
-![Next.js Diagnostic Console](assets/images/nextjs-diagnostic-console.png)
+Live Architecture Demo: Asynchronous Agentic RAG & Deterministic UI Streaming
 
-*Fig : Real-time diagnostic report streaming seamlessly into the Next.js UI, fully rendered via React-Markdown.*
+[Live Architecture Demo: Asynchronous Agentic RAG & Deterministic UI Streaming](https://github.com/user-attachments/assets/5386b794-9b3a-4cd1-80b5-1f250e4e9e10)
 
 ### 🛡️ Security & Privacy
 
