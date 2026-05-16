@@ -9,16 +9,18 @@ export default function Home() {
   const [markdownOutput, setMarkdownOutput] = useState("");
   const [isRunning, setIsRunning] = useState(false);
   
-  // We use a ref to hold the connection so we can safely close it if needed
+  // Refs to manage the connection and block ghost errors
   const eventSourceRef = useRef<EventSource | null>(null);
+  const hasCompletedRef = useRef<boolean>(false);
 
   const runDiagnostics = () => {
     if (!query) return;
 
-    // 1. Reset the UI State
+    // 1. Reset the UI State and our success flag
     setMarkdownOutput("");
     setStatusMessages(["Connecting to A2A Orchestrator..."]);
     setIsRunning(true);
+    hasCompletedRef.current = false;
 
     // 2. Safely close any hanging connections
     if (eventSourceRef.current) {
@@ -30,34 +32,71 @@ export default function Home() {
     const eventSource = new EventSource(`http://127.0.0.1:5000/api/diagnose?query=${encodedQuery}`);
     eventSourceRef.current = eventSource;
 
+    // ✨ The Typewriter Buffer Queue
+    let textQueue = "";
+    let isTyping = false;
+
+    // ✨ The Typewriter function that pulls chunks from the queue
+    const typeText = () => {
+      if (textQueue.length > 0) {
+        isTyping = true;
+        // Peel off 3 characters at a time for smooth streaming
+        const chunkToType = textQueue.substring(0, 3);
+        textQueue = textQueue.substring(3);
+        
+        setMarkdownOutput((prev) => prev + chunkToType);
+        
+        // Loop the typing using the browser's native refresh rate
+        requestAnimationFrame(typeText);
+      } else {
+        isTyping = false;
+      }
+    };
+
     // 4. Listen to the stream in real-time
     eventSource.onmessage = (event) => {
-      const data = JSON.parse(event.data);
+      try {
+        const data = JSON.parse(event.data);
 
-      if (data.status === "connected") {
-        setStatusMessages((prev) => [...prev, `[✓] ${data.message}`, "Routing to Diagnostics Agent..."]);
-      } 
-      else if (data.status === "processing") {
-        setStatusMessages((prev) => [...prev, `[✓] System RAG initialized.`, `> ${data.message}`]);
-      } 
-      else if (data.status === "complete") {
-        setStatusMessages((prev) => [...prev, "[✓] Diagnostics complete. Terminating connection."]);
-        
-        // Strip our deterministic Markdown delimiter and set the final output
-        const cleanMarkdown = data.result.replace(/^---\s*\n*/, "");
-        setMarkdownOutput(cleanMarkdown);
-        
-        eventSource.close();
-        setIsRunning(false);
-      } 
-      else if (data.status === "error") {
-        setStatusMessages((prev) => [...prev, `[ERROR] ${data.message}`]);
-        eventSource.close();
-        setIsRunning(false);
+        if (data.status === "connected") {
+          setStatusMessages((prev) => [...prev, `[✓] ${data.message}`, "Routing to Diagnostics Agent..."]);
+        } 
+        else if (data.status === "processing") {
+          setStatusMessages((prev) => [...prev, `[✓] System RAG initialized.`, `> ${data.message}`]);
+        } 
+        else if (data.status === "chunk") {
+          // Push new text to the queue instead of setting state directly
+          const cleanText = data.text.replace(/^---\s*\n*/, "");
+          textQueue += cleanText;
+          
+          if (!isTyping) {
+            typeText();
+          }
+        }
+        else if (data.status === "complete") {
+          hasCompletedRef.current = true; 
+          setStatusMessages((prev) => [...prev, "[✓] Diagnostics complete. Terminating connection."]);
+          
+          eventSource.close();
+          setIsRunning(false);
+        } 
+        else if (data.status === "error") {
+          setStatusMessages((prev) => [...prev, `[ERROR] ${data.message}`]);
+          eventSource.close();
+          setIsRunning(false);
+        }
+      } catch (e) {
+        // Fallback in case raw markdown drops
+        textQueue += event.data.replace(/^---\s*\n*/, "");
+        if (!isTyping) typeText();
       }
     };
 
     eventSource.onerror = (err) => {
+      if (hasCompletedRef.current) {
+        return; 
+      }
+
       console.error("EventSource failed:", err);
       setStatusMessages((prev) => [...prev, "[ERROR] Connection to API lost."]);
       eventSource.close();

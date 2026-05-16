@@ -18,9 +18,19 @@ Nexus-Giga is an autonomous, multi-agent ecosystem designed for industrial giga-
 
 By leveraging Agentic RAG, Enterprise Long-Term Memory (Mem0), and the Model Context Protocol (MCP), Nexus-Giga ensures secure, localized data processing while granting cloud agents the context they need to perform autonomous factory triage.
 
+To handle the constraints of private enterprise packages, Nexus-Giga utilizes a hybrid deployment architecture: a hyper-optimized, multi-stage Dockerized Next.js frontend (reduced from 1.6GB to 187MB for rapid cloud scaling) securely communicating with a native Python FastAPI orchestrator managed entirely by Astral's `uv`.
+
 ![Nexus-Giga Hybrid Architecture](assets/images/nexus-giga-architecture.png)
 
 *Fig: Nexus-Giga Enterprise Hybrid Architecture detailing the multi-agent orchestrator, FastMCP data bridge, and Dockerized Next.js console.*
+
+### 💡 Key Engineering Challenges Solved
+
+- **Python Memory Truncation:** Complex multi-agent memory states were being truncated by Python's standard `repr()` limits before streaming. Engineered a recursive deep-string extraction algorithm in FastAPI to hunt down and yield raw Markdown tokens.
+
+- **The SSE Race Condition:** Solved an ungraceful socket closure bug between FastAPI and the native Web Fetch API by implementing a dual-shield connection manager (utilizing `is_disconnected()` in Python and explicit state Refs in React) to guarantee safe TCP handshakes.
+
+- **Asynchronous UX Smoothing:** Because Google ADK accumulates reasoning tokens before emitting large 1500+ character blocks, implemented a client-side buffering queue using `requestAnimationFrame` to artificially reconstruct a flawless, word-by-word typewriter effect.
 
 ### 📊 Project Roadmap & Status
 
@@ -50,9 +60,11 @@ By leveraging Agentic RAG, Enterprise Long-Term Memory (Mem0), and the Model Con
 
 - **Orchestration & Reasoning:** Google ADK running Anthropic Claude Sonnet 4.6
 
-- **API Bridge:** FastAPI (Port 5000) utilizing Server-Sent Events (SSE)
+- **API Bridge:** FastAPI (Port 5000) utilizing Server-Sent Events (SSE) with custom **Deep Artifact Parsing** to bypass Python repr() truncation limits.
 
-- **Observability:** Ragas & LangSmith
+- **Frontend UX:** Next.js application utilizing a custom `requestAnimationFrame` text-queue to guarantee buttery-smooth, deterministic Markdown typing effects regardless of backend chunking behavior.
+
+- **Observability:** Automated LLM-as-a-judge evaluation via Ragas and real-time telemetry via LangSmith.
 
 #### Phase 6: Enterprise Hybrid Architecture
 
