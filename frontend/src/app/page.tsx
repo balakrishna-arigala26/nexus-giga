@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 
 export default function Home() {
-  const [query, setQuery] = useState("The V-101 Vacuum Gripper on Line 4 stopped working.");
+  const [query, setQuery] = useState("");
   const [statusMessages, setStatusMessages] = useState<string[]>([]);
   const [markdownOutput, setMarkdownOutput] = useState("");
   const [isRunning, setIsRunning] = useState(false);
@@ -127,7 +127,8 @@ export default function Home() {
               id="query"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="flex-1 bg-slate-900 border border-slate-600 rounded-md px-4 py-2 text-slate-200 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              placeholder="e.g., The V-101 Vacuum Gripper on Line 4 stopped working."
+              className="flex-1 bg-slate-900 border border-slate-600 rounded-md px-4 py-2 text-slate-200 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-slate-500"
               disabled={isRunning}
             />
             <button
